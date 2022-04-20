@@ -59,17 +59,36 @@ public class UserController {
 		return user;
 	}
 	
-	// PUT
-	@PutMapping(path = "/{id}")
-	public User updateUser(@RequestBody User user, @PathVariable(name = "id") int id) {
-		// TODO: Implement me
-		return null;
-	}
-	
-	// DELETE
-	@DeleteMapping(path = "/{id}")
-	public User deleteUser(@PathVariable(name = "id") int id) {
-		// TODO: Implement me
-		return null;
-	}
+    // PUT
+    @PutMapping(path = "/{id}")
+    public User updateUser(@RequestBody User user, @PathVariable(name = "id") int id) {
+        // Get the user from the list
+        User savedUser = null;
+        for (int i = 0; i < users.size(); i++) {
+            if (this.users.get(i).getId() == id) {
+                savedUser = this.users.get(i);
+            }
+        }
+        // Update that user
+        if (savedUser != null) {
+            savedUser.setUsername(user.getUsername());
+        }
+        // Return that user
+        return savedUser;
+    }
+    // DELETE
+    @DeleteMapping(path = "/{id}")
+    public User deleteUser(@PathVariable(name = "id") int id) {
+        // Get the user
+        User user = null;
+        for (int i = 0; i < users.size(); i++) {
+            if (this.users.get(i).getId() == id) {
+                user = this.users.get(i);
+            }
+        }
+        // Remove the user
+        users.remove(user);
+        // Return the removed user
+        return user;
+    }
 }
