@@ -38,14 +38,15 @@ public class User {
 	@Size(min = 2, max = 16, message = "Username must have at least 2 characters, but no more than 16")
 	private String username;
 
-	@Email
-	private String email;
-
-	@PastOrPresent
-	private Date createdAt;
 	// TODO: Add 3 new fields to the User class, with appropriate validation
 	// annotations applied to each
-
+	
+	@PastOrPresent
+	private Date createdAt;
+	
+	@Email
+	private String email;
+	
 	@Min(18)
 	@Max(60)
 	private int age;
