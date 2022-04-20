@@ -23,13 +23,13 @@ public class UserController {
 	// the list of users is just pretending to be a database for now
 	private static int COUNTER = 1;
 	private List<User> users = new ArrayList<>(List.of(new User(COUNTER++, "Fred"), new User(COUNTER++, "Sarah")));
-	
+
 	// GET
 	@GetMapping
 	public List<User> getUsers() {
 		return users;
 	}
-	
+
 	// GET by id
 	// - specify a variable in a path by surrounding it in curly braces
 	@GetMapping(path = "/{id}") // localhost:8080/user/3
@@ -41,27 +41,47 @@ public class UserController {
 		}
 		return null; // we should return a 404 not found response code
 	}
-	
+
 	// POST
 	@PostMapping // indicates POST requests are accepted at localhost:8080/user
 	public User createUser(@Valid @RequestBody User user) {
-		// The call to 
+		// The call to
 		user.setId(COUNTER++);
 		users.add(user);
 		return user;
 	}
-	
+
 	// PUT
 	@PutMapping(path = "/{id}")
-	public User updateUser(@RequestBody User user, @PathVariable(name = "id") int id) {
-		// TODO: In your implementation, ensure @Valid is called on the request body before updating
-		return null;
+	public User updateUser(@Valid @RequestBody User user, @PathVariable(name = "id") int id) {
+		// Get the user from the list
+		User savedUser = null;
+		for (int i = 0; i < users.size(); i++) {
+			if (this.users.get(i).getId() == id) {
+				savedUser = this.users.get(i);
+			}
+		}
+		// Update that user
+		if (savedUser != null) {
+			savedUser.setUsername(user.getUsername());
+		}
+		// Return that user
+		return savedUser;
 	}
-	
+
 	// DELETE
 	@DeleteMapping(path = "/{id}")
 	public User deleteUser(@PathVariable(name = "id") int id) {
-		// Your implementation here
-		return null;
+		// Get the user
+		User user = null;
+		for (int i = 0; i < users.size(); i++) {
+			if (this.users.get(i).getId() == id) {
+				user = this.users.get(i);
+			}
+		}
+		// Remove the user
+		users.remove(user);
+		// Return the removed user
+		return user;
 	}
 }
